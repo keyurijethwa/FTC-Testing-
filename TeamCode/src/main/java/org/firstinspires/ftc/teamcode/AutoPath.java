@@ -29,29 +29,28 @@ public class AutoPath extends LinearOpMode {
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     private final Pose start = poseFactory.of(0, 0, 90);
-    double targetX = 24.0;
-    double targetY = 50.0;
     private final Pose path1 = poseFactory.of(50, 50, 180);
-    private final Pose path2 = poseFactory.of(20, 50, 180);
+    private final Pose path2start = poseFactory.of(50, 50, 90);
+    private final Pose path2=poseFactory.of(50,70,90);
 
     private Intake_Balls ib;
     private servo_d s;
     double tolerance = 1.0;
+    private boolean intakeTriggered = false;
 
     // Autonomous routine
     public Command autoRoutine() {
         return sequential(
                 follow(follower, path1()),
-                waitMs(2000),
-                follow(follower,path2()),
-                waitMs(2000),
-                instant(()-> ib.in(0.6)),
-                waitMs(2000),
-                parallel(instant(()->ib.stop1()),instant(()->s.setPB())),
-                waitMs(2000),
-                instant(()-> ib.out(0.6)),
-                waitMs(2000),
-                instant(()->ib.stop1())
+                follow(follower, path2())
+//                waitMs(2000),
+//                instant(()-> ib.in(0.6)),
+//                waitMs(2000),
+//                parallel(instant(()->ib.stop1()),instant(()->s.setPB())),
+//                waitMs(2000),
+//                instant(()-> ib.out(0.6)),
+//                waitMs(2000),
+//                instant(()->ib.stop1())
 
 
         );
@@ -88,6 +87,19 @@ public class AutoPath extends LinearOpMode {
             follower.update();
             Scheduler.execute();
 
+//
+//            double distanceToPoint = Math.hypot(follower.pose().x() - 75.0, follower.pose().y() - 75.0);
+//
+//            if (!intakeTriggered && distanceToPoint <= 1.5) {
+//                intakeTriggered = true; // Prevents re-triggering continuously
+//
+//                // Schedule non-blocking intake sequence using Ivy Commands
+//                schedule(sequential(
+//                        instant(() -> ib.in(0.6)),
+//                        waitMs(2000),
+//                        instant(() -> ib.stop1())
+//                ));
+//            }
 //            if (follower.isBusy() && follower.distanceToEndpoint() <= tolerance) {
 //                follower.stop(); // Tells Pedro Pathing to stop pathing immediately
 //                Scheduler.reset();         // Clears running Ivy command
@@ -112,7 +124,7 @@ public class AutoPath extends LinearOpMode {
     }
     public Path path2() {
 
-        return line(path1, path2).linear(path1, path2);
+        return line(path2start, path2).linear(path2start, path2);
     }
 }
 
