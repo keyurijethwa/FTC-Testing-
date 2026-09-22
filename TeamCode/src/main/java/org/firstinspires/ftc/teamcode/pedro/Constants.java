@@ -44,8 +44,6 @@ public class Constants {
                 c.backLeftDirection.set(DcMotorSimple.Direction.FORWARD);
                 c.frontRightDirection.set(DcMotorSimple.Direction.REVERSE);
                 c.backRightDirection.set(DcMotorSimple.Direction.REVERSE);
-
-
             }
     );
 
@@ -54,6 +52,7 @@ public class Constants {
                 c.brakeAtEnd.set(true);
                 c.translationalDeviationTolerance.set(2.0);
                 c.headingDeviationTolerance.set(Math.toRadians(5));
+                c.maxPathSpeed.set(1.0);
                 Controller primaryTranslationalForward = Controller.proportional(0.3);
                 Controller secondaryTranslationalForward = Controller.proportional(0.1);
                 Controller primaryTranslationalLateral = Controller.proportional(0.3);
