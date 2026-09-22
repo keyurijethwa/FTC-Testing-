@@ -52,7 +52,6 @@ public class Constants {
                 c.brakeAtEnd.set(true);
                 c.translationalDeviationTolerance.set(2.0);
                 c.headingDeviationTolerance.set(Math.toRadians(5));
-                c.maxPathSpeed.set(1.0);
                 Controller primaryTranslationalForward = Controller.proportional(0.3);
                 Controller secondaryTranslationalForward = Controller.proportional(0.1);
                 Controller primaryTranslationalLateral = Controller.proportional(0.3);
@@ -69,6 +68,8 @@ public class Constants {
                 c.maxAchievableStrafeVelocity.set(52.34323936525474);
                 c.naturalForwardDeceleration.set(85.01144677379789);
                 c.naturalStrafeDeceleration.set(104.49787535782846);
+//                c.maxVelocityConstraint.set(30.0);
+//                c.maxPathSpeed.set(0.75);
             }
     );
     public static Follower create(HardwareMap h) {
