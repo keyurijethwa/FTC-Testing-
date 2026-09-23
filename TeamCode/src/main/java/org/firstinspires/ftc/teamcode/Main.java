@@ -19,6 +19,7 @@ public class Main extends LinearOpMode {
     double intake_power;
     private Servo clr;
 
+    private ShootBalls sb;
     GoBildaPinpointDriver pinpoint;
 
 
@@ -27,7 +28,7 @@ public class Main extends LinearOpMode {
         tr=new test_robot(hardwareMap);
         ib=new Intake_Balls(hardwareMap);
         s=new servo_d(hardwareMap);
-
+        sb=new ShootBalls(hardwareMap);
         pinpoint=hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
 
         clr=hardwareMap.get(Servo.class,"CLED");
@@ -51,17 +52,29 @@ public class Main extends LinearOpMode {
                     gamepad1.left_stick_x * drive_power,
                     -gamepad1.right_stick_x * drive_power
             );
+//            if(gamepad1.left_bumper){
+//                // You could use readings from April Tags here to give a new known position to the pinpoint
+//                pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0));
+//            }
+//            if(gamepad1.left_trigger>0.2){
+//
+//                tr.turn90(90,0,Math.toDegrees(pinpoint.getHeading(AngleUnit.DEGREES)));
+//
+//            }
+//            pinpoint.update();
+
             if(gamepad1.left_bumper){
-                // You could use readings from April Tags here to give a new known position to the pinpoint
-                pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0));
+                ib.in(0.7);
+            }
+            else {
+                ib.stop1();
             }
             if(gamepad1.left_trigger>0.2){
-
-                tr.turn90(90,0,Math.toDegrees(pinpoint.getHeading(AngleUnit.DEGREES)));
-
+                ib.out(0.5);
             }
-            pinpoint.update();
-
+            else {
+                ib.stop1();
+            }
             telemetry.addData(
                     "X (in)",
                     "%.2f",
@@ -83,23 +96,49 @@ public class Main extends LinearOpMode {
                     pinpoint.getFrequency());
 
             telemetry.update();
-            if(gamepad1.right_bumper ){
-                ib.in(intake_power);
-                if(ib.invelo()>150) {
-                    clr.setPosition(0.5);
-                }
 
-            } else if  (gamepad1.right_trigger>0.2){
-                ib.out(intake_power);
-                if(ib.invelo()>150) {
-                    clr.setPosition(0.722);
-                }
-            }else {
-                ib.stop1();
-                if (ib.invelo()==0){
-                    clr.setPosition(0);
-                }
+//            if(gamepad1.right_bumper){
+//                sb.forward(0.5);
+//            }
+//            else {
+//                sb.stop();
+//            }
+//            if(gamepad1.right_trigger>0.2){
+//                sb.reverse(0.5);
+//            }
+//            else {
+//                sb.stop();
+//            }
+
+            if(gamepad1.right_bumper){
+                ib.in(0.5);
             }
+            else {
+                ib.stop1();
+            }
+            if(gamepad1.right_trigger>0.2){
+                ib.out(0.5);
+            }
+            else {
+                ib.stop1();
+            }
+//            if(gamepad1.right_bumper ){
+//                ib.in(intake_power);
+//                if(ib.invelo()>150) {
+//                    clr.setPosition(0.5);
+//                }
+//
+//            } else if  (gamepad1.right_trigger>0.2){
+//                ib.out(intake_power);
+//                if(ib.invelo()>150) {
+//                    clr.setPosition(0.722);
+//                }
+//            }else {
+//                ib.stop1();
+//                if (ib.invelo()==0){
+//                    clr.setPosition(0);
+//                }
+//            }
 
             if(gamepad1.b){
                 s.setPB();

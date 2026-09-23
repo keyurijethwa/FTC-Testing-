@@ -31,16 +31,17 @@ public class NewPath2 extends LinearOpMode {
     private final Pose path1=poseFactory.of(60,35,90);
 
     private final Pose path2=poseFactory.of(20,35,180);
-    private final Pose path3=poseFactory.of(70,35,270);
-    private final Pose path4=poseFactory.of(70,105,270);
+    private final Pose path3=poseFactory.of(72,35,270);
+    private final Pose path4=poseFactory.of(72,110,270);
     private final Pose path5=poseFactory.of(40,130,90);
-    private final Pose path5Start=poseFactory.of(70,105,90);
+    private final Pose path5Start=poseFactory.of(72,110,90);
 //    private final Pose path5Control=poseFactory.of(50,120,90);
-    private final Pose path6=poseFactory.of(70,105,270);
+    private final Pose path6=poseFactory.of(72,110,270);
 //    private final Pose path6Control=poseFactory.of(50,120,270);
     private final Pose path6Start=poseFactory.of(40,130,270);
     private final Pose path7=poseFactory.of(60,15,90);
     private Intake_Balls ib;
+
 
     public Command autoRoutine() {
         return sequential(
