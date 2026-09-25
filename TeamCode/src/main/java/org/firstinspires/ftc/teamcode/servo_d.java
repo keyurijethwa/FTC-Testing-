@@ -24,6 +24,9 @@ public class servo_d {
         s.setPosition(1);
 
     }
+    public void setHalf(){
+        s.setPosition(0.5);
+    }
     public void setPY(){
         s2.setPosition(0.7);
     }

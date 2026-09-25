@@ -14,35 +14,35 @@ import org.firstinspires.ftc.teamcode.test_robot;
 public class Main extends LinearOpMode {
     private test_robot tr;
     private Intake_Balls ib;
-    private servo_d s;
+//    private servo_d s;
     double drive_power;
-    double intake_power;
-    private Servo clr;
-
-    private ShootBalls sb;
-    GoBildaPinpointDriver pinpoint;
+//    double intake_power;
+//    private Servo clr;
+//
+//    private ShootBalls sb;
+//    GoBildaPinpointDriver pinpoint;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         tr=new test_robot(hardwareMap);
         ib=new Intake_Balls(hardwareMap);
-        s=new servo_d(hardwareMap);
-        sb=new ShootBalls(hardwareMap);
-        pinpoint=hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
-
-        clr=hardwareMap.get(Servo.class,"CLED");
+//        s=new servo_d(hardwareMap);
+//        sb=new ShootBalls(hardwareMap);
+//        pinpoint=hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
+//
+//        clr=hardwareMap.get(Servo.class,"CLED");
 
         drive_power=0.8;
-        intake_power=0.2;
-
-        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
-                GoBildaPinpointDriver.EncoderDirection.REVERSED);
-
-        pinpoint.resetPosAndIMU();
-
-        telemetry.addLine("Pinpoint Ready");
-        telemetry.update();
+//        intake_power=0.2;
+//
+//        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
+//                GoBildaPinpointDriver.EncoderDirection.REVERSED);
+//
+//        pinpoint.resetPosAndIMU();
+//
+//        telemetry.addLine("Pinpoint Ready");
+//        telemetry.update();
 
         waitForStart();
 
@@ -75,27 +75,28 @@ public class Main extends LinearOpMode {
             else {
                 ib.stop1();
             }
-            telemetry.addData(
-                    "X (in)",
-                    "%.2f",
-                    pinpoint.getPosX(DistanceUnit.INCH));
 
-            telemetry.addData(
-                    "Y (in)",
-                    "%.2f",
-                    pinpoint.getPosY(DistanceUnit.INCH));
-
-            telemetry.addData(
-                    "Heading (deg)",
-                    "%.2f",
-                    pinpoint.getHeading(AngleUnit.DEGREES));
-
-            telemetry.addData(
-                    "Frequency",
-                    "%.0f Hz",
-                    pinpoint.getFrequency());
-
-            telemetry.update();
+//            telemetry.addData(
+//                    "X (in)",
+//                    "%.2f",
+//                    pinpoint.getPosX(DistanceUnit.INCH));
+//
+//            telemetry.addData(
+//                    "Y (in)",
+//                    "%.2f",
+//                    pinpoint.getPosY(DistanceUnit.INCH));
+//
+//            telemetry.addData(
+//                    "Heading (deg)",
+//                    "%.2f",
+//                    pinpoint.getHeading(AngleUnit.DEGREES));
+//
+//            telemetry.addData(
+//                    "Frequency",
+//                    "%.0f Hz",
+//                    pinpoint.getFrequency());
+//
+//            telemetry.update();
 
 //            if(gamepad1.right_bumper){
 //                sb.forward(0.5);
@@ -110,18 +111,18 @@ public class Main extends LinearOpMode {
 //                sb.stop();
 //            }
 
-            if(gamepad1.right_bumper){
-                ib.in(0.5);
-            }
-            else {
-                ib.stop1();
-            }
-            if(gamepad1.right_trigger>0.2){
-                ib.out(0.5);
-            }
-            else {
-                ib.stop1();
-            }
+//            if(gamepad1.right_bumper){
+//                ib.in(0.5);
+//            }
+//            else {
+//                ib.stop1();
+//            }
+//            if(gamepad1.right_trigger>0.2){
+//                ib.out(0.5);
+//            }
+//            else {
+//                ib.stop1();
+//            }
 //            if(gamepad1.right_bumper ){
 //                ib.in(intake_power);
 //                if(ib.invelo()>150) {
@@ -140,32 +141,29 @@ public class Main extends LinearOpMode {
 //                }
 //            }
 
-            if(gamepad1.b){
-                s.setPB();
-                if(s.getP()==0){
-                    clr.setPosition(0.333);
-                }else {
-                    clr.setPosition(0);
-                }
-
-            }
-            if(gamepad1.a){
-                s.setPA();
-                if(s.getP()==1){
-                    clr.setPosition(0.555);
-                }else{
-                    clr.setPosition(0);
-                }
-            }
-            if(gamepad1.y){
-                s.setPY();
-            }
-            if (gamepad1.x){
-                s.setPX();
-            }
-
-
-
+//            if(gamepad1.b){
+//                s.setPB();
+//                if(s.getP()==0){
+//                    clr.setPosition(0.333);
+//                }else {
+//                    clr.setPosition(0);
+//                }
+//
+//            }
+//            if(gamepad1.a){
+//                s.setPA();
+//                if(s.getP()==1){
+//                    clr.setPosition(0.555);
+//                }else{
+//                    clr.setPosition(0);
+//                }
+//            }
+//            if(gamepad1.y){
+//                s.setPY();
+//            }
+//            if (gamepad1.x){
+//                s.setPX();
+//            }
 
         }
 

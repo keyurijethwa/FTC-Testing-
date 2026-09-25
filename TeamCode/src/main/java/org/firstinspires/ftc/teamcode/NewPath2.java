@@ -5,6 +5,7 @@ import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.commands.Commands.waitMs;
+import static com.pedropathing.ivy.groups.Groups.parallel;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 import static org.firstinspires.ftc.teamcode.pedro.Constants.foresightConfig;
@@ -28,47 +29,49 @@ public class NewPath2 extends LinearOpMode {
 
     private final Pose start = poseFactory.of(60, 15, 90);
 
-    private final Pose path1=poseFactory.of(60,35,90);
+    private final Pose path1=poseFactory.of(60,25,90);
 
-    private final Pose path2=poseFactory.of(20,35,180);
+    private final Pose path2=poseFactory.of(20,50,180);
     private final Pose path3=poseFactory.of(72,35,270);
-    private final Pose path4=poseFactory.of(72,110,270);
-    private final Pose path5=poseFactory.of(40,130,90);
-    private final Pose path5Start=poseFactory.of(72,110,90);
+    private final Pose path4=poseFactory.of(72,118,270);
+    private final Pose path5=poseFactory.of(48,135,90);
+    private final Pose path5Start=poseFactory.of(72,118,90);
 //    private final Pose path5Control=poseFactory.of(50,120,90);
-    private final Pose path6=poseFactory.of(72,110,270);
+    private final Pose path6=poseFactory.of(72,118,270);
 //    private final Pose path6Control=poseFactory.of(50,120,270);
-    private final Pose path6Start=poseFactory.of(40,130,270);
+    private final Pose path6Start=poseFactory.of(48,135,270);
     private final Pose path7=poseFactory.of(60,15,90);
     private Intake_Balls ib;
+    private ShootBalls sb;
+    private servo_d s;
 
 
     public Command autoRoutine() {
         return sequential(
                 follow(follower,path1()),
-                instant(()->ib.out(0.7)),
-                waitMs(2000),
-                instant(()->ib.stop1()),
-                waitMs(2000),
-                instant(()->ib.in(0.7)),
+                instant(()->s.setPY()),
+                parallel(instant(()->ib.out(0.85)),instant(()->sb.forward(0.5))),
+                waitMs(3000),
+                parallel(instant(()->ib.stop1()),instant(()->sb.stop()),instant(()->s.setPX())),
                 follow(follower, path2()),
+                instant(()->ib.in(0.85)),
                 waitMs(2000),
                 instant(()-> ib.stop1()),
-                waitMs(1000),
                 follow(follower,path3()),
                 follow(follower,path4()),
-                instant(()-> ib.out(0.7)),
-                waitMs(2000),
-                instant(()-> ib.stop1()),
-                waitMs(2000),
-                instant(()->ib.in(0.7)),
+                instant(()->s.setPY()),
+                parallel(instant(()->ib.out(0.85)),instant(()->sb.forward(0.5))),
+                waitMs(3000),
+                parallel(instant(()->ib.stop1()),instant(()->sb.stop()),instant(()->s.setPX())),
                 follow(follower,path5()),
+                instant(()->ib.in(0.85)),
                 waitMs(2000),
                 instant(()-> ib.stop1()),
                 follow(follower,path6()),
-                instant(()-> ib.out(0.7)),
-                waitMs(2000),
-                instant(()-> ib.stop1()),
+                instant(()->s.setPY()),
+                parallel(instant(()->ib.out(0.85)),instant(()->sb.forward(0.5))),
+                waitMs(3000),
+                parallel(instant(()->ib.stop1()),instant(()->sb.stop()),instant(()->s.setPX())),
                 follow(follower,path7())
 
         );
@@ -76,13 +79,17 @@ public class NewPath2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ib=new Intake_Balls(hardwareMap);
-
+        sb=new ShootBalls(hardwareMap);
+        s=new servo_d(hardwareMap);
 
         Scheduler.reset();
         follower = Constants.create(hardwareMap);
         follower.setPose(start);
         follower.update();
-
+        s.setPX();
+        s.setHalf();
+        telemetry.addData("Stopper set",true);
+        telemetry.update();
         waitForStart();
         schedule(autoRoutine());
 
