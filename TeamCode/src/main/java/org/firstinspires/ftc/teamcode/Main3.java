@@ -1,24 +1,44 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import java.util.List;
 
 @TeleOp(name = "DriveTeleOp", group = "FTC")
 public class Main3 extends LinearOpMode {
 
     private Intake_Balls intake;
     private ShooterSubsystem1 s;
+    private Limelight3A limelight;
 
     @Override
     public void runOpMode() {
 
+        // ==========================================
+        // HARDWARE INITIALIZATION
+        // ==========================================
+
         intake = new Intake_Balls(hardwareMap);
         s = new ShooterSubsystem1(hardwareMap);
 
-        // ==============================
+        limelight = hardwareMap.get(
+                Limelight3A.class,
+                "limelight"
+        );
+
+        // AprilTag pipeline
+        limelight.pipelineSwitch(0);
+
+        limelight.start();
+
+
+        // ==========================================
         // TIMER VARIABLES
-        // ==============================
+        // ==========================================
 
         boolean lastRightBumper = false;
 
@@ -28,9 +48,44 @@ public class Main3 extends LinearOpMode {
         double startTime = 0;
         double finalTime = 0;
 
+
+        // ==========================================
+        // WAIT FOR START
+        // ==========================================
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Limelight", "Starting...");
+        telemetry.update();
+
         waitForStart();
 
+
+        // ==========================================
+        // MAIN LOOP
+        // ==========================================
+
         while (opModeIsActive()) {
+
+            // ==========================================
+            // LIMELIGHT RESULT
+            // ==========================================
+
+            LLResult result = limelight.getLatestResult();
+
+            List<LLResultTypes.FiducialResult> fiducials = null;
+
+            if (result != null) {
+                fiducials = result.getFiducialResults();
+            }
+
+
+            // ==========================================
+            // APRILTAG DETECTION
+            // ==========================================
+
+            boolean aprilTagDetected =
+                    fiducials != null && !fiducials.isEmpty();
+
 
             // ==========================================
             // INTAKE CONTROL
@@ -64,10 +119,8 @@ public class Main3 extends LinearOpMode {
 
             if (rightBumper && !lastRightBumper) {
 
-                // Start shooter
                 s.shootFast();
 
-                // Start timer
                 startTime = getRuntime();
 
                 timerRunning = true;
@@ -103,7 +156,6 @@ public class Main3 extends LinearOpMode {
 
             } else {
 
-                // Bumper released
                 s.stop();
 
                 timerRunning = false;
@@ -111,6 +163,7 @@ public class Main3 extends LinearOpMode {
 
 
             // Save bumper state
+
             lastRightBumper = rightBumper;
 
 
@@ -194,10 +247,69 @@ public class Main3 extends LinearOpMode {
             }
 
 
+            // ==========================================
+            // LIMELIGHT TELEMETRY
+            // ==========================================
+
+            telemetry.addData(
+                    "Limelight Result",
+                    result != null
+            );
+
+            telemetry.addData(
+                    "AprilTag Detected",
+                    aprilTagDetected
+            );
+
+
+            // ==========================================
+            // PRINT ALL APRILTAG IDs
+            // ==========================================
+
+            if (aprilTagDetected) {
+
+                telemetry.addData(
+                        "Number of Tags",
+                        fiducials.size()
+                );
+
+                for (int i = 0; i < fiducials.size(); i++) {
+
+                    LLResultTypes.FiducialResult fiducial =
+                            fiducials.get(i);
+
+                    int detectedId =
+                            fiducial.getFiducialId();
+
+                    telemetry.addData(
+                            "Tag " + (i + 1),
+                            "ID = " + detectedId
+                    );
+                }
+
+            } else {
+
+                telemetry.addData(
+                        "AprilTags",
+                        "NONE"
+                );
+            }
+
+
+            // ==========================================
+            // UPDATE TELEMETRY ONCE
+            // ==========================================
+
             telemetry.update();
         }
 
+
+        // ==========================================
+        // STOP
+        // ==========================================
+
         s.stop();
         intake.stop1();
+        limelight.stop();
     }
 }
