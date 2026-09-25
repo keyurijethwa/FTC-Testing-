@@ -35,6 +35,14 @@ public test_robot(HardwareMap hardwareMap){
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 }
+
+    public void drive(double power){
+        fl.setPower(power);
+        fr.setPower(power);
+        bl.setPower(power);
+        br.setPower(power);
+
+    }
    public void driveRobot(double drive,double strafe,double turn){
 
         double FL = drive + strafe + turn;

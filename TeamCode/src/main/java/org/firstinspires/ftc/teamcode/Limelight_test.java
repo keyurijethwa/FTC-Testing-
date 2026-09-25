@@ -42,11 +42,11 @@ public class Limelight_test extends LinearOpMode {
                             double opMeters = Math.sqrt(x * x + y * y + z * z);
 
                             // Convert results to centimeters
-                            double opCm = opMeters * 100.0;
-                            double forwardCm = z * 100.0;
+                            double opCm = opMeters * 39.3701;
+                            double forwardCm = z * 39.3701;
 
-                            telemetry.addData("Direct Distance OP (cm)", opCm);
-                            telemetry.addData("Forward Distance Z (cm)", forwardCm);
+                            telemetry.addData("Direct Distance OP (in)", opCm);
+                            telemetry.addData("Forward Distance Z (in)", forwardCm);
                         }
                     }else {
                         telemetry.addData("Limelight", "No Target Detected");
