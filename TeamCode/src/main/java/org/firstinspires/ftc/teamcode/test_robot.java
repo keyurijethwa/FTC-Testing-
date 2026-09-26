@@ -43,6 +43,22 @@ public test_robot(HardwareMap hardwareMap){
         br.setPower(power);
 
     }
+
+    public void driveLeft(double power){
+        // STRAFE LEFT
+        fl.setPower(-0.4);
+        bl.setPower(0.4);
+        fr.setPower(0.4);
+        br.setPower(-0.4);
+    }
+    public void driveRight(double power){
+        // STRAFE RIGHT
+        fl.setPower(0.4);
+        bl.setPower(-0.4);
+        fr.setPower(-0.4);
+        br.setPower(0.4);
+    }
+
    public void driveRobot(double drive,double strafe,double turn){
 
         double FL = drive + strafe + turn;
@@ -136,7 +152,7 @@ public test_robot(HardwareMap hardwareMap){
             stableLoops = 0;
         }
     }
-    private void stopDrive() {
+    public void stopDrive() {
 
         fl.setPower(0);
         fr.setPower(0);

@@ -313,7 +313,8 @@ public class Hive extends LinearOpMode {
 
                     if(calibratedDistanceInches>24+CALIBRATED_OFFSET_INCH){
                         tr.drive(0.3);
-                    } else if (calibratedDistanceInches==24+CALIBRATED_OFFSET_INCH) {
+                    }
+                    else if (calibratedDistanceInches==24+CALIBRATED_OFFSET_INCH) {
                         tr.drive(0);
                     } else {
                         tr.drive(0);
