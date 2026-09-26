@@ -57,6 +57,7 @@ public class Hive extends LinearOpMode {
      */
 
     private static final double DISTANCE_OFFSET_INCH = 5.0;
+    private static final double CALIBRATED_OFFSET_INCH=6.0;
 
 
     // =========================================================
@@ -310,9 +311,9 @@ public class Hive extends LinearOpMode {
                                 DriveState.STOP;
                     }
 
-                    if(calibratedDistanceInches>24){
-                        tr.drive(0.5);
-                    } else if (calibratedDistanceInches==24) {
+                    if(calibratedDistanceInches>24+CALIBRATED_OFFSET_INCH){
+                        tr.drive(0.3);
+                    } else if (calibratedDistanceInches==24+CALIBRATED_OFFSET_INCH) {
                         tr.drive(0);
                     } else {
                         tr.drive(0);
